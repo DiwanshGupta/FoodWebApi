@@ -6,23 +6,24 @@ import session from "express-session";
 import passport from "passport";
 import { Strategy } from "passport-google-oauth2";
 import authRoutes from "./routes/auth-router.js";
+import foodRoutes from "./routes/food-router.js"
 import userDb from "./model/user-schema.js";
 dotenv.config();
 const app = express();
 
 app.use(
-  cors({
-    origin: "http://localhost:5173",
-    methods: "GET,POST,DELETE,PUT",
-    credentials: true,
-  })
+    cors({
+        origin: "http://localhost:5173",
+        methods: "GET,POST,DELETE,PUT",
+        credentials: true,
+    })
 );
 app.use(
-  session({
-    secret: process.env.SecretKey,
-    resave: false,
-    saveUninitialized: true,
-  })
+    session({
+        secret: process.env.SecretKey,
+        resave: false,
+        saveUninitialized: true,
+    })
 );
 app.use(passport.initialize());
 app.use(passport.session());
@@ -57,7 +58,7 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
-  done(null, user);
+    done(null, user);
 });
 
 passport.deserializeUser((user, done) => {
@@ -66,6 +67,7 @@ passport.deserializeUser((user, done) => {
 
 // Routes
 app.use("/auth", authRoutes);
+app.use("/food", foodRoutes);
 
 app.get("/", (req, res) => {
   res.status(200).send("Welcome to the MERN app");
