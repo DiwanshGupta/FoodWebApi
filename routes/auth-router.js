@@ -1,16 +1,9 @@
 import express from "express";
-import {
-  googleCallback,
-  googleAuth,
-  loginSuccess,
-  logout,
-} from "../controller/auth_controller.js";
-
+import { login, register, user } from "../controller/auth_controller.js";
+import authMiddleware from "../middleware/authmiddleware.js";
 const router = express.Router();
 
-router.get("/google", googleAuth);
-router.get("/google/callback", googleCallback);
-router.get("/login/success", loginSuccess);
-router.post("/logout/path", logout);
-
+router.post("/register", register);
+router.post("/login", login);
+router.get("/user", authMiddleware, user);
 export default router;
