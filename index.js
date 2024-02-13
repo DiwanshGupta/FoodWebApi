@@ -4,6 +4,7 @@ import cors from "cors";
 import connectDb from "./utility/db.js";
 import authRoutes from "./routes/auth-router.js";
 import foodRoutes from "./routes/food-router.js";
+import userRoutes from "./routes/user-router.js";
 dotenv.config();
 const app = express();
 app.use(express.json());
@@ -17,6 +18,7 @@ app.use(
 // Routes
 app.use("/auth", authRoutes);
 app.use("/food", foodRoutes);
+app.use("/user", userRoutes);
 
 app.get("/", (req, res) => {
   res.status(200).send("Welcome to the MERN app");
