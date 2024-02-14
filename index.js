@@ -8,13 +8,17 @@ import userRoutes from "./routes/user-router.js";
 dotenv.config();
 const app = express();
 app.use(express.json());
-app.use(
-  cors({
-    origin: "*",
-    methods: "GET,POST,DELETE,PUT",
-    credentials: true,
-  })
-);
+
+// Enable CORS for all routes
+app.use(cors());
+
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173",
+//     methods: "GET,POST,DELETE,PUT",
+//     credentials: true,
+//   })
+// );
 // Routes
 app.use("/auth", authRoutes);
 app.use("/food", foodRoutes);
