@@ -10,15 +10,14 @@ const app = express();
 app.use(express.json());
 
 // Enable CORS for all routes
-app.use(cors());
 
-// app.use(
-//   cors({
-//     origin: "http://localhost:5173",
-//     methods: "GET,POST,DELETE,PUT",
-//     credentials: true,
-//   })
-// );
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: "GET,POST,DELETE,PUT",
+    credentials: true,
+  })
+);
 // Routes
 app.use("/auth", authRoutes);
 app.use("/food", foodRoutes);
