@@ -14,16 +14,15 @@ router.delete("/delete/:id", deleteFoodById);
 router.get("/getByHolemark", getFoodByHolemark);
 router.get("/getByCategory", getFoodByCategory);
 
-router.post("/checkout",async(req,res)=>{
+router.post("/create-checkout-session",async(req,res)=>{
     const { products } = req.body;
     const lineItems = products.map((product)=>({
         price_data:{
-            currency:"usd",
+            currency:"inr",
             product_data:{
-                name:product.name,
-                images:[product.image],
+                name:product.title,
             },
-            unit_amount:Math.round(product.price*100),
+            unit_amount:product.price*100,
         },
         quantity:product.quantity
     }));
@@ -32,8 +31,8 @@ router.post("/checkout",async(req,res)=>{
         payment_method_types:["card"],
         line_items:lineItems,
         mode:"payment",
-        success_url:"",
-        cancel_url:"",
+        success_url:"http://localhost:3000/",
+        cancel_url:"http://localhost:3000/",
     });
     res.json({id:session.id})
 })
