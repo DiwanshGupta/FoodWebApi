@@ -77,7 +77,7 @@ router.post("/checkout", async (req, res) => {
       success_url: "http://localhost:5173/",
       cancel_url: "http://localhost:5173/about",
       shipping_address_collection: {
-        allowed_countries: isAddressOutsideIndia ? [""] : ["IN"],
+        allowed_countries: isAddressOutsideIndia ? country : ["IN"],
       },
     });
 
