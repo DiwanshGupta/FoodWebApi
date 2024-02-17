@@ -42,20 +42,19 @@ router.post("/checkout", async (req, res) => {
     const { userId, country } = address;
 
     // Determine the currency and address location
-    const currency = "INR";
-    const isAddressOutsideIndia = country !== "IN";
+    const currency = "USD";
+    const isAddressOutsideUSA = country !== "US";
 
-    // If the currency is not INR and the address is in India, throw an error
-    if (currency !== "INR" && !isAddressOutsideIndia) {
+    // If the currency is not USD and the address is in the USA, throw an error
+    if (currency !== "USD" && !isAddressOutsideUSA) {
       throw new Error(
-        "Non-INR transactions in India must have shipping/billing address outside India"
+        "Non-USD transactions in the USA must have shipping/billing address outside the USA"
       );
     }
 
-    // Ensure that the country is set to "IN" if the address is in India
     const normalizedAddress = {
       ...address,
-      country: isAddressOutsideIndia ? country : "IN",
+      country: isAddressOutsideUSA ? country : "US",
     };
 
     const lineItems = products.map((product) => ({
@@ -77,21 +76,30 @@ router.post("/checkout", async (req, res) => {
       success_url: "http://localhost:5173/success",
       cancel_url: "http://localhost:5173/cancel",
       shipping_address_collection: {
-        allowed_countries: isAddressOutsideIndia ? country : ["IN"],
+        allowed_countries: isAddressOutsideUSA ? ["US"] : [], // Adjusted here
       },
     });
 
+    // Store the payment status in the schema
     const payment = new Payment({
       amount: calculateTotalAmount(products),
       razorpay_payment_id: session.id,
       razorpay_signature: session.id,
-      userId: userId,
+      userid: userId,
+      status: "success", // Default to success, change it if payment fails
     });
 
     await payment.save();
     res.json({ id: session.id });
   } catch (error) {
     console.error("Error during checkout:", error.message);
+    // Store the payment status as error in the schema
+    const payment = new Payment({
+      amount: calculateTotalAmount(products), // products should be defined here
+      userid: userId,
+      status: "error",
+    });
+    await payment.save();
     res.status(400).json({ error: error.message });
   }
 });
