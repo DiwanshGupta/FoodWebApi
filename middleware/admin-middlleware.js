@@ -1,5 +1,6 @@
 const adminMiddleware = async (req, res, next) => {
   try {
+    console.log(req.user)
     const admin = req.user.isadmin;
     if (!admin) {
       return res

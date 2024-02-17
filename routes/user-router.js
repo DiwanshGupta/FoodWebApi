@@ -15,4 +15,9 @@ router.get("/find/:id", authMiddleware, adminMiddleware, getUserById);
 router.put("/update/:id", authMiddleware, adminMiddleware, updateUserById);
 router.delete("/delete/:id", authMiddleware, adminMiddleware, deleteUserById);
 
+// router.get("/", authMiddleware, getAllUsers);
+// router.get("/find/:id", authMiddleware, getUserById);
+// router.put("/update/:id", authMiddleware,updateUserById);
+// router.delete("/delete/:id", authMiddleware, deleteUserById);
+
 export default router;
