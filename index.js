@@ -11,9 +11,12 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: ["https://foodyhut.vercel.app","https://food-hut-nine.vercel.app/"],
-    methods: "GET,POST,DELETE,PUT",
-    credentials: true,
+    origin: [
+      "https://foodyhut.vercel.app",
+      "https://food-hut-nine.vercel.app"
+    ],
+    methods: "GET, POST, DELETE, PUT",
+    credentials: true
   })
 );
 // Routes
